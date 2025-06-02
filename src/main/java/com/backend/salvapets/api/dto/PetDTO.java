@@ -14,11 +14,12 @@ public class PetDTO {
     private String descricao;
     private Long usuarioId;
     private List<FotoPetDTO> fotos;
+    private String whatsapp;
 
     public PetDTO() {
     }
 
-    public PetDTO(Long id, String nome, String raca, String porte, String sexo, String idade, String descricao, Long usuarioId, List<FotoPetDTO> fotos) {
+    public PetDTO(Long id, String nome, String raca, String porte, String sexo, String idade, String descricao, Long usuarioId, List<FotoPetDTO> fotos, String whatsapp) {
         this.id = id;
         this.nome = nome;
         this.raca = raca;
@@ -28,6 +29,7 @@ public class PetDTO {
         this.descricao = descricao;
         this.usuarioId = usuarioId;
         this.fotos = fotos;
+        this.whatsapp = whatsapp;
     }
 
     public Long getId() {
@@ -100,5 +102,13 @@ public class PetDTO {
 
     public void setFotos(List<FotoPetDTO> fotos) {
         this.fotos = fotos;
+    }
+
+    public String getWhatsapp() {
+        return whatsapp;
+    }
+
+    public void setWhatsapp(String whatsapp) {
+        this.whatsapp = whatsapp;
     }
 }

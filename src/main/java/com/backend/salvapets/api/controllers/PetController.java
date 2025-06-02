@@ -161,6 +161,10 @@ public class PetController {
             dto.setUsuarioId(pet.getUsuario().getId());
         }
 
+        if (pet.getUsuario() != null && pet.getUsuario().getContato() != null) {
+            dto.setWhatsapp(pet.getUsuario().getContato().getWhatsapp());
+        }
+
         if (pet.getFotos() != null) {
             List<FotoPetDTO> fotosDTO = pet.getFotos().stream().map(foto -> {
                 FotoPetDTO fotoDTO = new FotoPetDTO();
