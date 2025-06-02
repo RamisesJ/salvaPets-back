@@ -1,0 +1,2 @@
+ALTER TABLE denuncia DROP COLUMN imagem;
+ALTER TABLE denuncia ADD COLUMN imagem TEXT;

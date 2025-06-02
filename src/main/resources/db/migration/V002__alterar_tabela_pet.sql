@@ -1,0 +1,2 @@
+ALTER TABLE pet
+    ADD COLUMN sexo VARCHAR(10);
