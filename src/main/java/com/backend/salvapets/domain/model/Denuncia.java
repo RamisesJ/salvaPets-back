@@ -122,7 +122,7 @@ public class Denuncia {
         return email;
     }
 
-    public void setEmail() {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -130,7 +130,7 @@ public class Denuncia {
         return tipo;
     }
 
-    public void setTipo() {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -146,7 +146,7 @@ public class Denuncia {
         return dataOcorrencia;
     }
 
-    public void setDataOcorrencia(@NotNull @PastOrPresent(message = "A data da ocorrência não pode ser futura.") LocalDate dataOcorrencia) {
+    public void setDataOcorrencia(LocalDate dataOcorrencia) {
         this.dataOcorrencia = dataOcorrencia;
     }
 
@@ -158,27 +158,27 @@ public class Denuncia {
         this.assunto = assunto;
     }
 
-    public @NotBlank(message = "O relato é obrigatório.") @Size(min = 10, message = "O relato deve ter pelo menos 10 caracteres.") String getRelato() {
+    public String getRelato() {
         return relato;
     }
 
-    public void setRelato(@NotBlank(message = "O relato é obrigatório.") @Size(min = 10, message = "O relato deve ter pelo menos 10 caracteres.") String relato) {
+    public void setRelato(String relato) {
         this.relato = relato;
     }
 
-    public @NotNull(message = "A localização é obrigatória.") Double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(@NotNull(message = "A localização é obrigatória.") Double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public @NotNull(message = "A localização é obrigatória.") Double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(@NotNull(message = "A localização é obrigatória.") Double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
