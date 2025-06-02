@@ -1,5 +1,6 @@
 package com.backend.salvapets.api.controllers;
 
+import com.backend.salvapets.domain.exception.Response;
 import com.backend.salvapets.domain.model.Ong;
 import com.backend.salvapets.domain.service.OngService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,22 @@ public class OngController {
     @PostMapping
     public Ong salvar(@RequestBody Ong ong) {
         return service.salvar(ong);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<Ong>> atualizarOng(
+            @PathVariable Long id,
+            @RequestBody Ong ongAtualizada) {
+
+        Response<Ong> response = new Response<>();
+        try {
+            Ong ong = service.atualizar(id, ongAtualizada);
+            response.setData(ong);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.getErrors().add(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @DeleteMapping("/{id}")

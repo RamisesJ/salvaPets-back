@@ -1,5 +1,6 @@
 package com.backend.salvapets.api.controllers;
 
+import com.backend.salvapets.domain.exception.Response;
 import com.backend.salvapets.domain.model.Usuario;
 import com.backend.salvapets.domain.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,22 @@ public class UsuarioController {
     @PostMapping
     public Usuario salvar(@RequestBody Usuario usuario) {
         return service.salvar(usuario);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<Usuario>> atualizarUsuario(
+            @PathVariable Long id,
+            @RequestBody Usuario usuarioAtualizado) {
+
+        Response<Usuario> response = new Response<>();
+        try {
+            Usuario usuario = service.atualizar(id, usuarioAtualizado);
+            response.setData(usuario);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.getErrors().add(e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @DeleteMapping("/{id}")

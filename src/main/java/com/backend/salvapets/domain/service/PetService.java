@@ -2,6 +2,7 @@ package com.backend.salvapets.domain.service;
 
 import com.backend.salvapets.domain.model.Pet;
 import com.backend.salvapets.domain.repositories.PetRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,35 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
+    @Transactional
     public List<Pet> listarTodos() {
-        return petRepository.findAll();
+        List<Pet> pets = petRepository.findAll();
+        pets.forEach(p -> p.getFotos().size());
+        return pets;
     }
 
-    public List<Pet> listarPorUsuario(Long usuarioId) {
-        return petRepository.findByUsuarioId(usuarioId);
+    @Transactional
+    public List<Pet> buscarPorUsuarioId(Long usuarioId) {
+        List<Pet> pets = petRepository.findByUsuarioId(usuarioId);
+        pets.forEach(p -> p.getFotos().size());
+        return pets;
+    }
+
+    @Transactional
+    public Pet atualizar(Long id, Pet petAtualizado) {
+        Pet petExistente = petRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        petExistente.setNome(petAtualizado.getNome());
+        petExistente.setRaca(petAtualizado.getRaca());
+        petExistente.setPorte(petAtualizado.getPorte());
+        petExistente.setSexo(petAtualizado.getSexo());
+        petExistente.setIdade(petAtualizado.getIdade());
+        petExistente.setDescricao(petAtualizado.getDescricao());
+        petExistente.setUsuario(petAtualizado.getUsuario());
+        petExistente.setFotos(petAtualizado.getFotos());
+
+        return petRepository.save(petExistente);
     }
 
     public Optional<Pet> buscarPorId(Long id) {

@@ -1,21 +1,41 @@
 package com.backend.salvapets.api.dto;
 
-
-import com.backend.salvapets.domain.model.FotoPet;
-
 import java.util.List;
+
 
 public class PetDTO {
 
+    private Long id;
     private String nome;
     private String raca;
     private String porte;
+    private String sexo;
     private String idade;
     private String descricao;
     private Long usuarioId;
-    private List<FotoPet> fotos;
+    private List<FotoPetDTO> fotos;
 
     public PetDTO() {
+    }
+
+    public PetDTO(Long id, String nome, String raca, String porte, String sexo, String idade, String descricao, Long usuarioId, List<FotoPetDTO> fotos) {
+        this.id = id;
+        this.nome = nome;
+        this.raca = raca;
+        this.porte = porte;
+        this.sexo = sexo;
+        this.idade = idade;
+        this.descricao = descricao;
+        this.usuarioId = usuarioId;
+        this.fotos = fotos;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -42,6 +62,14 @@ public class PetDTO {
         this.porte = porte;
     }
 
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     public String getIdade() {
         return idade;
     }
@@ -66,11 +94,11 @@ public class PetDTO {
         this.usuarioId = usuarioId;
     }
 
-    public List<FotoPet> getFotos() {
+    public List<FotoPetDTO> getFotos() {
         return fotos;
     }
 
-    public void setFotos(List<FotoPet> fotos) {
+    public void setFotos(List<FotoPetDTO> fotos) {
         this.fotos = fotos;
     }
 }

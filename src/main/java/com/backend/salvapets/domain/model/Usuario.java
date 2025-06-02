@@ -25,7 +25,7 @@ public class Usuario {
     @JoinColumn(name = "contato_id")
     private Contato contato;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonBackReference
     private List<Pet> pet;
 

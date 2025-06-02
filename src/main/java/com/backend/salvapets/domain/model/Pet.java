@@ -14,15 +14,17 @@ public class Pet {
     private String nome;
     private String raca;
     private String porte;
+    private String sexo;
     private String idade;
     private String descricao;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     @JsonBackReference
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<FotoPet> fotos;
 
@@ -59,6 +61,14 @@ public class Pet {
 
     public void setPorte(String porte) {
         this.porte = porte;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public String getIdade() {

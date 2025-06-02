@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -44,7 +41,7 @@ public class AuthController {
         Usuario user = this.usuarioRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
         if(passwordEncoder.matches(body.password(), user.getPassword())) {
             String token = this.tokenService.gerarToken(user);
-            return ResponseEntity.ok(new ResponseDTO(user.getNome(), token));
+            return ResponseEntity.ok(new ResponseDTO( user.getId(), user.getNome(), user.getPerfil(), token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -65,16 +62,10 @@ public class AuthController {
             this.usuarioRepository.save(newUser);
 
             String token = this.tokenService.gerarToken(newUser);
-            return ResponseEntity.ok(new ResponseDTO(newUser.getNome(), token));
+            return ResponseEntity.ok(new ResponseDTO(newUser.getId(), newUser.getNome(), newUser.getPerfil(), token));
 
         }
         return ResponseEntity.badRequest().build();
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<HttpStatus> logout() {
-        SecurityContextHolder.clearContext();
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -1,8 +1,8 @@
 package com.backend.salvapets.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "foto_pet")

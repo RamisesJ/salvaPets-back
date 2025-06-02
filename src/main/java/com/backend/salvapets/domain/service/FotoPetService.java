@@ -3,6 +3,7 @@ package com.backend.salvapets.domain.service;
 import com.backend.salvapets.domain.model.FotoPet;
 import com.backend.salvapets.domain.model.Pet;
 import com.backend.salvapets.domain.repositories.FotoPetRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,11 @@ public class FotoPetService {
 
     public void deletar(Long id) {
         fotoPetRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deletarTodasPorPetId(Long petId) {
+        fotoPetRepository.deleteByPetId(petId);
     }
 
     public List<FotoPet> buscarPorPetId(Pet pet) {

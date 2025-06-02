@@ -13,4 +13,5 @@ public interface FotoPetRepository extends JpaRepository<FotoPet, Long> {
     boolean existsByIdAndPet(Long id, Pet pet);
     void deleteByPet(Pet pet);
     void deleteById(Long id);
+    void deleteByPetId(Long petId);
 }

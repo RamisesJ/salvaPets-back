@@ -1,4 +1,6 @@
 package com.backend.salvapets.api.dto;
 
-public record ResponseDTO (String nome, String token) {
+import com.backend.salvapets.domain.model.Perfil;
+
+public record ResponseDTO (Long id, String nome, Perfil perfil, String token) {
 }

@@ -4,6 +4,7 @@ import com.backend.salvapets.domain.model.Contato;
 
 public class UsuarioDTO {
 
+    private Long id;
     private String nome;
     private String cpf;
     private String email;
@@ -11,6 +12,23 @@ public class UsuarioDTO {
     private Contato contato;
 
     public UsuarioDTO() {
+    }
+
+    public UsuarioDTO(Long id, String nome, String cpf, String email, String password, Contato contato) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.password = password;
+        this.contato = contato;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
