@@ -3,6 +3,7 @@ package com.backend.salvapets.api.controllers;
 import com.backend.salvapets.domain.exception.Response;
 import com.backend.salvapets.domain.model.Denuncia;
 import com.backend.salvapets.domain.service.DenunciaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class DenunciaController {
     private DenunciaService denunciaService;
 
     @PostMapping
-    public ResponseEntity<Denuncia> salvar(@RequestBody Denuncia denuncia) {
+    public ResponseEntity<Denuncia> salvar(@Valid @RequestBody Denuncia denuncia) {
         try {
             Denuncia salva = denunciaService.salvar(denuncia);
             return ResponseEntity.ok(salva);

@@ -1,11 +1,13 @@
 package com.backend.salvapets.api.controllers;
 
+import com.backend.salvapets.api.dto.AlterarSenhaDTO;
 import com.backend.salvapets.api.dto.LoginRequestDTO;
 import com.backend.salvapets.api.dto.ResponseDTO;
 import com.backend.salvapets.api.dto.UsuarioDTO;
 import com.backend.salvapets.domain.model.Perfil;
 import com.backend.salvapets.domain.model.Usuario;
 import com.backend.salvapets.domain.repositories.UsuarioRepository;
+import com.backend.salvapets.domain.service.UsuarioService;
 import com.backend.salvapets.infra.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ import java.util.Optional;
 public class AuthController {
 
     @Autowired
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
@@ -30,15 +32,15 @@ public class AuthController {
     @Autowired
     private final TokenService tokenService;
 
-    public AuthController(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthController(UsuarioService usuarioService, PasswordEncoder passwordEncoder, TokenService tokenService) {
+        this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
-        Usuario user = this.usuarioRepository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
+        Usuario user = this.usuarioService.buscarPorEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
         if(passwordEncoder.matches(body.password(), user.getPassword())) {
             String token = this.tokenService.gerarToken(user);
             return ResponseEntity.ok(new ResponseDTO( user.getId(), user.getNome(), user.getPerfil(), token));
@@ -48,7 +50,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody UsuarioDTO body){
-        Optional<Usuario> user = this.usuarioRepository.findByEmail(body.getEmail());
+        Optional<Usuario> user = this.usuarioService.buscarPorEmail(body.getEmail());
 
         if(user.isEmpty()) {
             Usuario newUser = new Usuario();
@@ -59,7 +61,7 @@ public class AuthController {
             newUser.setPerfil(Perfil.COMUM);
             newUser.setPassword(passwordEncoder.encode(body.getPassword()));
             newUser.setContato(body.getContato());
-            this.usuarioRepository.save(newUser);
+            this.usuarioService.salvar(newUser);
 
             String token = this.tokenService.gerarToken(newUser);
             return ResponseEntity.ok(new ResponseDTO(newUser.getId(), newUser.getNome(), newUser.getPerfil(), token));
@@ -67,5 +69,18 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @PutMapping("/usuarios/{id}/senha")
+    public ResponseEntity<?> atualizarSenha(@PathVariable Long id, @RequestBody AlterarSenhaDTO dto) {
+        try {
+            usuarioService.atualizarSenha(id, dto);
+            return ResponseEntity.ok("Senha atualizada com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 
 }

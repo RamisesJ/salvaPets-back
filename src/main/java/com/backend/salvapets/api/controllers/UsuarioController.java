@@ -1,5 +1,6 @@
 package com.backend.salvapets.api.controllers;
 
+import com.backend.salvapets.api.dto.UsuarioDTO;
 import com.backend.salvapets.domain.exception.Response;
 import com.backend.salvapets.domain.model.Usuario;
 import com.backend.salvapets.domain.service.UsuarioService;
@@ -19,10 +20,6 @@ public class UsuarioController {
         this.service = service;
     }
 
-//    @GetMapping
-//    public ResponseEntity<String> verificarSaudacao() {
-//        return ResponseEntity.ok("Olá, usuário!");
-//    }
 
     @GetMapping
     public List<Usuario> listarTodos() {
@@ -41,25 +38,19 @@ public class UsuarioController {
         return service.salvar(usuario);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Response<Usuario>> atualizarUsuario(
-            @PathVariable Long id,
-            @RequestBody Usuario usuarioAtualizado) {
-
-        Response<Usuario> response = new Response<>();
-        try {
-            Usuario usuario = service.atualizar(id, usuarioAtualizado);
-            response.setData(usuario);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.getErrors().add(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        try {
+            Usuario usuarioAtualizado = service.atualizarUsuario(id, dto);
+            return ResponseEntity.ok(usuarioAtualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
